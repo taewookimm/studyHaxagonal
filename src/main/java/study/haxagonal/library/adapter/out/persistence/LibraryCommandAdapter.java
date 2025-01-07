@@ -7,6 +7,8 @@ import study.haxagonal.library.adapter.out.mapper.LibraryEntityMapper;
 import study.haxagonal.library.application.domain.Library;
 import study.haxagonal.library.application.port.LibraryCommandPort;
 
+import java.time.Instant;
+
 @Slf4j
 @Repository
 @RequiredArgsConstructor
@@ -18,17 +20,18 @@ public class LibraryCommandAdapter implements LibraryCommandPort {
     @Override
     public Library createLibrary(Library library) {
         var libraryEntity = libraryEntityMapper.toEntity(library);
+        libraryEntity.settingCreatedAt(Instant.now());
 
         return libraryEntityMapper.toDomain(libraryJpaRepository.save(libraryEntity));
     }
 
     @Override
     public Library updateLibrary(Library library) {
-        log.info("update library.getId(): {}", library.getId());
         var existLibrary = libraryJpaRepository.findById(library.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Library not found"));
 
         existLibrary.updateLibrary(library);
+        existLibrary.settingUpdatedAt(Instant.now());
 
         return libraryEntityMapper.toDomain(libraryJpaRepository.save(existLibrary));
     }

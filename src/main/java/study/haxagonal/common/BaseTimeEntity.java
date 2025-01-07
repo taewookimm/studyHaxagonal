@@ -25,4 +25,12 @@ public class BaseTimeEntity {
     @LastModifiedDate
     @Column(name ="updated_at")
     private Instant updatedAt;
+
+    public void settingCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void settingUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

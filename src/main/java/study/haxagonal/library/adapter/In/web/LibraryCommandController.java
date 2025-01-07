@@ -35,7 +35,6 @@ public class LibraryCommandController {
     )
     @PostMapping
     public ResponseEntity<LibraryDto> create(@RequestBody @Valid LibraryCreateCommand command) {
-        log.info("create library command: {}", command);
         var library = libraryCreateUseCase.createLibrary(libraryDtoMapper.toDomain(command));
 
         return ResponseEntity.ok(libraryDtoMapper.toDto(library));
